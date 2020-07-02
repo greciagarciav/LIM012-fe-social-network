@@ -46,7 +46,7 @@ const updateAllCommentsUsername = (userId, username) => comment().get()
   .then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
       if (doc.data().idUser === userId) {
-        console.log('él user es', userId, doc.data().idUser);
+        // console.log('él user es', userId, doc.data().idUser);
         updateUserNameComment(doc.id, username);
       }
     });

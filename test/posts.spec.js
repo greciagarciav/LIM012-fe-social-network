@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
 /* eslint-disable max-len */
-// import '../_mock_/mock.js';
 import MockFirebase from 'mock-cloud-firestore';
 
 import { models } from '../src/model/model-index.js';
@@ -25,9 +24,16 @@ const fixtureData = {
 };
 
 global.firebase = new MockFirebase(fixtureData, { isNaiveSnapshotListenerEnabled: true });
+
+describe('uploadImage', () => {
+  // const imagenAsubir = { files: ['estrella.jpg'] };
+
+  // const file = { name: 'hola.png', type: 'image/png' };
+  test('should return the path of the img file', () => models.posts.createPost('hola de test', 'owe55NuhqjTJKIQQQ4Z98IavJ0i2', '', 'Pepitoi', '', { files: ['estrella.jpg'] })
+    .then((url) => expect(url).toBe('/PostsImages/estrella.jpg')));
+});
 // global.firebase = mockFirebase();
 // const idUser = { uid: '02' };
-// const imagenAsubir = { files: ['estrella.jpg'] };
 
 // describe('pinta post pùblicos', () => {
 //   it('Deberia guardar la creacion de una nueva publicacion', (done) => models.posts.createPost('hola de test', idUser, '', 'Pepitoi', '', imagenAsubir).then(() => {
@@ -65,26 +71,14 @@ describe('editPost', () => {
       models.posts.postsMain(callback);
     }));
 });
-// describe('updateUserNamePost', () => {
-//   it('Actualiza el username en todos sus posts', (done) => models.posts.updateAllPostUsername(idUser.uid, 'RosmeryNew')
-//     .then(() => {
-//       const callback = (commentss) => {
-//         const result = commentss.find((element) => element.idUser === idUser.uid);
-//         expect(result.username).toBe('RosmeryNew');
-//         done();
-//       };
-//       models.posts.readPostProfile('owe55NuhqjTJKIQQQ4Z98IavJ0i2', callback);
-//     }));
-// });
-
-describe('updateAllCommentsUsername', () => {
-  it('Deberia de poder actualizar el userName en todos sus comments', (done) => models.posts.updateAllPostUsername(idUser, 'RosmeryNew', 'FCwyOleS2ooEYZrGpue3')
+describe('updateUserNamePost', () => {
+  it('Actualiza el username en todos sus posts', (done) => models.posts.updateAllPostUsername(idUser.uid, 'RosmeryNew')
     .then(() => {
-      const callback = (posts) => {
-        const result = posts.find((element) => element.idUser === idUser.uid);
+      const callback = (post) => {
+        const result = post.find((element) => element.idUser === idUser.uid);
         expect(result.username).toBe('RosmeryNew');
         done();
       };
-      models.posts.readPostProfile('owe55NuhqjTJKIQQQ4Z98IavJ0i2', callback);
+      models.posts.postsMain(callback);
     }));
 });

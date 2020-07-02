@@ -10,20 +10,6 @@ const editPost = (id, newPost) => firebase.firestore().collection('post').doc(id
 const deletePost = (id) => firebase.firestore().collection('post').doc(id).delete();
 
 // ACTUALIZAR NOMBRE DE USUARIO
-const updateUserNamePost = (id, username) => firebase.firestore().collection('post').doc(id).update({
-  username,
-});
-
-// ACTUALIZAR NOMBRE DE USUARIO EN TODOS LOS POST
-const updateAllPostUsername = (userId, username) => firebase.firestore()
-  .collection('post').get()
-  .then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-      if (doc.data().idUser === userId) {
-        updateUserNamePost(doc.id, username);
-      }
-    });
-  });
 
 // SUBIR LA IMAGEN AL STORAGE, PARA OBTENER LA URL DE LA IMG
 const subirImagenFirebase = (imagenASubir) => new Promise((resolve, reject) => {
@@ -95,6 +81,21 @@ const readPostProfile = (idUser, callback) => posts().where('idUser', '==', idUs
     callback(getPost);
   });
 
+const updateUserNamePost = (id, username) => firebase.firestore().collection('post').doc(id).update({
+  username,
+});
+
+// ACTUALIZAR NOMBRE DE USUARIO EN TODOS LOS POST
+const updateAllPostUsername = (userId, username) => firebase.firestore()
+  .collection('post').get()
+  .then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      if (doc.data().idUser === userId) {
+        updateUserNamePost(doc.id, username);
+      }
+    });
+  });
+
 // ACTUALIZAR LA PROPIEDAD O KEY (LIKES)
 const updateLikes = (id, likes) => posts().doc(id).update({ likes });
 
@@ -106,4 +107,5 @@ export default {
   postsMain,
   readPostProfile,
   updateLikes,
+  subirImagenFirebase,
 };
